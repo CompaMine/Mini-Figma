@@ -1,0 +1,14 @@
+{
+  "name": "figcore",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Figma-like research prototype: Rust Wasm core + WebGL2",
+  "scripts": {
+    "start": "node serve.mjs",
+    "build": "powershell -ExecutionPolicy Bypass -File ./build.ps1",
+    "bench": "node bench.mjs"
+  },
+  "dependencies": {
+    "playwright-core": "^1.63.0"
+  }
+}

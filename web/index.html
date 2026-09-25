@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Figcore — Wasm / WebGL editor</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='4' fill='%230d99ff'/></svg>" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <span class="logo"></span>
+      <strong>Figcore</strong>
+      <em>research prototype</em>
+    </div>
+
+    <div class="tools" id="tools">
+      <button data-tool="select" class="on" title="V — выделить">Выделить</button>
+      <button data-tool="rect" title="R — прямоугольник">Прямоуг.</button>
+      <button data-tool="ellipse" title="O — эллипс">Эллипс</button>
+    </div>
+
+    <div class="actions">
+      <button id="btnUndo" title="Ctrl+Z">Undo</button>
+      <button id="btnRedo" title="Ctrl+Y">Redo</button>
+      <button id="btnGroup" title="Ctrl+G">Группа</button>
+      <button id="btnDelete" title="Delete">Удалить</button>
+      <span class="sep"></span>
+      <button data-gen="1000">1k</button>
+      <button data-gen="10000">10k</button>
+      <button data-gen="100000">100k</button>
+      <button data-gen="1000000">1M</button>
+      <button data-gen="10000000">10M</button>
+      <button data-gen="100000000">100M</button>
+      <input id="genN" type="number" min="1" max="100000000" placeholder="N" title="Любое число до 100 000 000" />
+      <button id="btnGenN">Ок</button>
+      <span class="sep"></span>
+      <input id="findN" type="number" min="1" placeholder="№" title="Найти элемент по номеру" />
+      <button id="btnFind">Найти</button>
+      <span class="sep"></span>
+      <button id="btnSave">Сохранить</button>
+      <button id="btnLoad">Загрузить</button>
+      <input id="fileIn" type="file" accept=".mfg,application/octet-stream" hidden />
+      <span class="sep"></span>
+      <button id="btnBench" class="accent">Замерить 3с</button>
+    </div>
+
+    <div class="mode">
+      <button id="modeWasm" class="on">Wasm + WebGL2</button>
+      <button id="modeNaive">JS + Canvas2D</button>
+    </div>
+  </header>
+
+  <div class="body">
+    <aside class="left">
+      <h2>Слои</h2>
+      <p class="hint" id="layerHint">пусто</p>
+      <ul id="layerList"></ul>
+    </aside>
+
+    <main class="stage">
+      <canvas id="gl"></canvas>
+      <canvas id="c2d" hidden></canvas>
+      <canvas id="labels"></canvas>
+      <div id="hud">
+        <span id="fps">— FPS</span>
+        <span id="frameMs">— ms</span>
+        <span id="packMs">pack —</span>
+        <span id="nodeHud">0 узлов</span>
+        <span id="zoomHud">100%</span>
+      </div>
+      <div id="hintBar">ЛКМ — рисовать / выделять · колёсико — зум · пробел — пан · «Найти» — прыжок к номеру</div>
+    </main>
+
+    <aside class="right">
+      <h2>Свойства</h2>
+      <label>X <input id="propX" type="number" step="1" disabled /></label>
+      <label>Y <input id="propY" type="number" step="1" disabled /></label>
+      <label>W <input id="propW" type="number" step="1" min="1" disabled /></label>
+      <label>H <input id="propH" type="number" step="1" min="1" disabled /></label>
+      <label>Цвет <input id="propColor" type="color" value="#4da3ff" disabled /></label>
+      <p class="hint" id="selHint">ничего не выделено</p>
+
+      <h2>Замеры</h2>
+      <table class="bench" id="benchTable">
+        <thead>
+          <tr><th>бэкенд</th><th>N</th><th>FPS</th><th>кадр</th><th>draw</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <p class="hint">Автопан 3 секунды, среднее по кадрам. Сравните Wasm+WebGL и JS+Canvas2D на одной сцене.</p>
+    </aside>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
